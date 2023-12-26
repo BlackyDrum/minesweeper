@@ -8,7 +8,7 @@ let gameStarted = false;
 let gameLost = false;
 let timeCounter = 0;
 
-const bombCount = 60;
+const bombCount = 50;
 
 let remainingFlags = bombCount;
 
@@ -34,7 +34,7 @@ function preload() {
   flag = loadImage("assets/Flag.png");
 
   setInterval(() => {
-    if (gameStarted && timeCounter <= 999 && !gameLost) {
+    if (gameStarted && timeCounter <= 999 && !gameLost && !isWin()) {
       $("#timeCount").sevenSeg({ value: String(timeCounter).padStart(3, "0"), digits: 3 });
       timeCounter++;
     }
@@ -76,16 +76,13 @@ function draw() {
   let cellWidth = width / 20;
   let cellHeight = height / 20;
 
-  if (gameLost) {
-    // Show all bombs
-    for (let i = 0; i < 20; i++) {
-      for (let j = 0; j < 20; j++) {
-        if (grid[i][j] === -1) {
-          clickedGrid[i][j] = 1;
-        }
-      }
-    }
+  if (isWin()) {
+    showAllBombs();
+    noLoop();
+  }
 
+  if (gameLost) {
+    showAllBombs();
     noLoop();
   }
 
@@ -110,8 +107,10 @@ function draw() {
       } else if (grid[i][j] === -1) {
         imageMode(CENTER);
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
-        document.getElementById("reset").innerHTML = sadSmiley;
-        gameLost = true;
+        if (!isWin()) {
+          document.getElementById("reset").innerHTML = sadSmiley;
+          gameLost = true;
+        }
       } else {
         push();
         noFill();
@@ -132,6 +131,16 @@ function draw() {
   }
 
   changeCursor();
+}
+
+function showAllBombs() {
+  for (let i = 0; i < 20; i++) {
+    for (let j = 0; j < 20; j++) {
+      if (grid[i][j] === -1) {
+        clickedGrid[i][j] = 1;
+      }
+    }
+  }
 }
 
 function reset() {
@@ -163,6 +172,18 @@ function calculateBombPosition() {
     let pos = options[index];
     grid[pos.x][pos.y] = -1; // -1 represents a bomb
   }
+}
+
+function isWin() {
+  let win = true;
+  for (let i = 0; i < 20 && win; i++) {
+    for (let j = 0; j < 20 && win; j++) {
+      if (grid[i][j] !== -1 && clickedGrid[i][j] === 0) {
+        win = false;
+      }
+    }
+  }
+  return win;
 }
 
 function calculateNumbers() {
