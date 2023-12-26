@@ -99,6 +99,16 @@ function draw() {
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
         document.getElementById("reset").innerHTML = sadSmiley;
         gameLost = true;
+
+        // Show all bombs
+        for (let i = 0; i < 20; i++) {
+          for (let j = 0; j < 20; j++) {
+            if (grid[i][j] === -1) {
+              clickedGrid[i][j] = 1;
+            }
+          }
+        }
+
         noLoop();
       } else {
         push();
