@@ -10,6 +10,9 @@ let remainingFlags = bombCount;
 
 const borderSize = 3.5;
 
+const sadSmiley = "&#128577;";
+const happySmiley = "&#128578;";
+
 const colors = {
   0: [255],
   1: [0, 0, 255],
@@ -43,11 +46,14 @@ function setup() {
 
   calculateBombPosition();
   calculateNumbers();
-  console.table(grid);
 
   for (let element of document.getElementsByClassName("p5Canvas")) {
     element.addEventListener("contextmenu", (e) => e.preventDefault());
   }
+
+  document.getElementById("reset").innerHTML = happySmiley;
+
+  loop();
 }
 
 function draw() {
@@ -77,7 +83,8 @@ function draw() {
       } else if (grid[i][j] === -1) {
         imageMode(CENTER);
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
-        //noLoop();
+        document.getElementById("reset").innerHTML = sadSmiley;
+        noLoop();
       } else {
         textStyle(BOLD);
         fill(colors[grid[i][j]] || 0);
@@ -89,6 +96,15 @@ function draw() {
   }
 
   changeCursor();
+}
+
+function reset() {
+  grid = [];
+  clickedGrid = [];
+
+  remainingFlags = bombCount;
+
+  setup();
 }
 
 function calculateBombPosition() {

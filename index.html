@@ -12,6 +12,18 @@
         padding: 0;
         margin: 0;
       }
+
+      .primary {
+        background-color: #C6C6C6;
+      }
+
+      #reset {
+        border-width: 5px;
+        border-top-color: white;
+        border-left-color: white;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+      }
       </style>
       </head>
     <script src="src/p5.min.js"></script>
@@ -19,10 +31,25 @@
   </head>
 
   <body>
-    <div class="flex">
+    <div class="flex mt-10">
       <div class="mx-auto">
-        <main></main>
+        <div class="flex mb-5 primary p-2">
+          <div class="mr-auto my-auto">asdas</div>
+          <div class="mx-auto">
+            <button class="text-xl" id="reset">&#128578;</button>
+          </div>
+          <div class="ml-auto my-auto">asdas</div>
+        </div>
+        <div>
+          <main></main>
+        </div>
       </div>
     </div>
   </body>
+
+  <script>
+    document.getElementById("reset").addEventListener("click", () => {
+      reset();
+    })
+  </script>
 </html>
