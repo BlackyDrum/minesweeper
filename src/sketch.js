@@ -5,6 +5,7 @@ let bomb;
 let flag;
 
 let gameStarted = false;
+let gameLost = false;
 let timeCounter = 0;
 
 const bombCount = 40;
@@ -33,7 +34,7 @@ function preload() {
   flag = loadImage("assets/Flag.png");
 
   setInterval(() => {
-    if (gameStarted && timeCounter <= 999) {
+    if (gameStarted && timeCounter <= 999 && !gameLost) {
       $("#timeCount").sevenSeg({ value: String(timeCounter).padStart(3, "0"), digits: 3 });
       timeCounter++;
     }
@@ -97,7 +98,7 @@ function draw() {
         imageMode(CENTER);
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
         document.getElementById("reset").innerHTML = sadSmiley;
-        gameStarted = false;
+        gameLost = true;
         noLoop();
       } else {
         textStyle(BOLD);
@@ -117,6 +118,7 @@ function reset() {
   clickedGrid = [];
 
   gameStarted = false;
+  gameLost = false;
   timeCounter = 0;
 
   remainingFlags = bombCount;
