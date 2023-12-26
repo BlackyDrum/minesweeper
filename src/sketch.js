@@ -8,7 +8,7 @@ let gameStarted = false;
 let gameLost = false;
 let timeCounter = 0;
 
-const bombCount = 40;
+const bombCount = 60;
 
 let remainingFlags = bombCount;
 
