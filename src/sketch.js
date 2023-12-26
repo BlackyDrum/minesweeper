@@ -192,7 +192,6 @@ function mousePressed() {
         clickedGrid[x][y] = 0;
         remainingFlags++;
       } else {
-        console.log(remainingFlags);
         if (remainingFlags <= 0) return;
         clickedGrid[x][y] = 2;
         remainingFlags--;
