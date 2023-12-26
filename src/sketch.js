@@ -101,11 +101,20 @@ function draw() {
         gameLost = true;
         noLoop();
       } else {
+        push();
+        noFill();
+        stroke(120);
+        rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+        pop();
         textStyle(BOLD);
         fill(colors[grid[i][j]] || 0);
         textAlign(CENTER, CENTER);
         textSize(20);
-        text(grid[i][j], i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
+        text(
+          grid[i][j] === 0 ? "" : grid[i][j],
+          i * cellWidth + cellWidth / 2,
+          j * cellHeight + cellHeight / 2
+        );
       }
     }
   }
