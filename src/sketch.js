@@ -4,6 +4,9 @@ let clickedGrid = [];
 let bomb;
 let flag;
 
+let gameStarted = false;
+let timeCounter = 0;
+
 const bombCount = 40;
 
 let remainingFlags = bombCount;
@@ -28,6 +31,13 @@ const colors = {
 function preload() {
   bomb = loadImage("assets/Bomb.png");
   flag = loadImage("assets/Flag.png");
+
+  setInterval(() => {
+    if (gameStarted && timeCounter <= 999) {
+      $("#timeCount").sevenSeg({ value: String(timeCounter).padStart(3, "0"), digits: 3 });
+      timeCounter++;
+    }
+  }, 1000);
 }
 
 function setup() {
@@ -54,6 +64,7 @@ function setup() {
   document.getElementById("reset").innerHTML = happySmiley;
 
   $("#flagCount").sevenSeg({ value: String(remainingFlags).padStart(3, "0"), digits: 3 });
+  $("#timeCount").sevenSeg({ value: String(timeCounter).padStart(3, "0"), digits: 3 });
 
   loop();
 }
@@ -86,6 +97,7 @@ function draw() {
         imageMode(CENTER);
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
         document.getElementById("reset").innerHTML = sadSmiley;
+        gameStarted = false;
         noLoop();
       } else {
         textStyle(BOLD);
@@ -103,6 +115,9 @@ function draw() {
 function reset() {
   grid = [];
   clickedGrid = [];
+
+  gameStarted = false;
+  timeCounter = 0;
 
   remainingFlags = bombCount;
 
@@ -167,6 +182,8 @@ function mousePressed() {
   if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
     let x = int((mouseX - borderSize * 2) / (width / 20));
     let y = int((mouseY - borderSize * 2) / (width / 20));
+
+    gameStarted = true;
 
     if (mouseButton === RIGHT && clickedGrid[x][y] !== 1) {
       if (clickedGrid[x][y] === 2) {

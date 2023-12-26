@@ -28,6 +28,18 @@
         border-right-color: #808080;
         border-bottom-color: #808080;
       }
+
+      #options {
+        border-width: 5px;
+        border-right-color: white;
+        border-bottom-color: white;
+        border-top-color: #808080;
+        border-left-color: #808080;
+      }
+
+      #field {
+        background-color: #C6C6C6;
+      }
       </style>
       </head>
     <script src="src/p5.min.js"></script>
@@ -36,13 +48,13 @@
 
   <body>
     <div class="flex mt-10">
-      <div class="mx-auto">
-        <div class="flex mb-5 primary p-2">
+      <div class="mx-auto p-3" id="field">
+        <div class="flex mb-5 primary p-2" id="options">
           <div style="height: 30px; width: 50px;" class="mr-auto my-auto" id="flagCount"></div>
           <div class="mx-auto">
             <button class="text-xl" id="reset">&#128578;</button>
           </div>
-          <div class="ml-auto my-auto">asdas</div>
+          <div style="height: 30px; width: 50px;" class="ml-auto my-auto" id="timeCount"></div>
         </div>
         <div>
           <main></main>
