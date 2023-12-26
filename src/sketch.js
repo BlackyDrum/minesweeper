@@ -205,6 +205,31 @@ function mousePressed() {
       return;
     }
 
+    // Flood fill
+    let toCheck = [{ x, y }];
+    while (toCheck.length > 0) {
+      let current = toCheck.pop();
+      let i = current.x;
+      let j = current.y;
+
+      if (i < 0 || i >= grid.length || j < 0 || j >= grid.length || clickedGrid[i][j] !== 0) {
+        continue;
+      }
+
+      clickedGrid[i][j] = 1;
+
+      if (grid[i][j] === 0) {
+        toCheck.push({ x: i - 1, y: j });
+        toCheck.push({ x: i - 1, y: j - 1 });
+        toCheck.push({ x: i - 1, y: j + 1 });
+        toCheck.push({ x: i + 1, y: j });
+        toCheck.push({ x: i + 1, y: j - 1 });
+        toCheck.push({ x: i + 1, y: j + 1 });
+        toCheck.push({ x: i, y: j - 1 });
+        toCheck.push({ x: i, y: j + 1 });
+      }
+    }
+
     clickedGrid[x][y] = 1;
   }
 }
