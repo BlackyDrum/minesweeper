@@ -6,6 +6,8 @@ let flag;
 
 const bombCount = 40;
 
+let remainingFlags = bombCount;
+
 const borderSize = 3.5;
 
 const colors = {
@@ -35,13 +37,17 @@ function setup() {
     clickedGrid.push([]);
     for (let j = 0; j < 20; j++) {
       grid[i].push(0);
-      clickedGrid[i].push(false);
+      clickedGrid[i].push(0);
     }
   }
 
   calculateBombPosition();
   calculateNumbers();
   console.table(grid);
+
+  for (let element of document.getElementsByClassName("p5Canvas")) {
+    element.addEventListener("contextmenu", (e) => e.preventDefault());
+  }
 }
 
 function draw() {
@@ -54,7 +60,7 @@ function draw() {
     for (let j = 0; j < 20; j++) {
       noStroke();
 
-      if (!clickedGrid[i][j]) {
+      if (clickedGrid[i][j] === 0) {
         fill(198);
         rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
 
@@ -65,6 +71,9 @@ function draw() {
         fill(120);
         rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
         rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
+      } else if (clickedGrid[i][j] === 2) {
+        imageMode(CENTER);
+        image(flag, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
       } else if (grid[i][j] === -1) {
         imageMode(CENTER);
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
@@ -136,16 +145,27 @@ function calculateNumbers() {
   }
 }
 
-function mouseClicked() {
+function mousePressed() {
   if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
     let x = int((mouseX - borderSize * 2) / (width / 20));
     let y = int((mouseY - borderSize * 2) / (width / 20));
 
-    if (clickedGrid[x][y]) {
+    if (mouseButton === RIGHT && clickedGrid[x][y] !== 1) {
+      if (clickedGrid[x][y] === 2) {
+        clickedGrid[x][y] = 0;
+        remainingFlags++;
+      } else {
+        clickedGrid[x][y] = 2;
+        remainingFlags--;
+      }
       return;
     }
 
-    clickedGrid[x][y] = true;
+    if (clickedGrid[x][y] !== 0) {
+      return;
+    }
+
+    clickedGrid[x][y] = 1;
   }
 }
 
@@ -155,7 +175,7 @@ function changeCursor() {
     let y = int((mouseY - borderSize * 2) / (width / 20));
 
     cursor("initial");
-    if (!clickedGrid[x][y]) {
+    if (clickedGrid[x][y] === 0) {
       cursor("pointer");
     }
   }
