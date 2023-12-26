@@ -53,6 +53,8 @@ function setup() {
 
   document.getElementById("reset").innerHTML = happySmiley;
 
+  $("#flagCount").sevenSeg({ value: String(remainingFlags).padStart(3, "0"), digits: 3 });
+
   loop();
 }
 
@@ -171,9 +173,13 @@ function mousePressed() {
         clickedGrid[x][y] = 0;
         remainingFlags++;
       } else {
+        console.log(remainingFlags);
+        if (remainingFlags <= 0) return;
         clickedGrid[x][y] = 2;
         remainingFlags--;
       }
+
+      $("#flagCount").sevenSeg({ value: String(remainingFlags).padStart(3, "0"), digits: 3 });
       return;
     }
 
