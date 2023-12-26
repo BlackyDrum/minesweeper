@@ -76,6 +76,19 @@ function draw() {
   let cellWidth = width / 20;
   let cellHeight = height / 20;
 
+  if (gameLost) {
+    // Show all bombs
+    for (let i = 0; i < 20; i++) {
+      for (let j = 0; j < 20; j++) {
+        if (grid[i][j] === -1) {
+          clickedGrid[i][j] = 1;
+        }
+      }
+    }
+
+    noLoop();
+  }
+
   for (let i = 0; i < 20; i++) {
     for (let j = 0; j < 20; j++) {
       noStroke();
@@ -99,17 +112,6 @@ function draw() {
         image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
         document.getElementById("reset").innerHTML = sadSmiley;
         gameLost = true;
-
-        // Show all bombs
-        for (let i = 0; i < 20; i++) {
-          for (let j = 0; j < 20; j++) {
-            if (grid[i][j] === -1) {
-              clickedGrid[i][j] = 1;
-            }
-          }
-        }
-
-        noLoop();
       } else {
         push();
         noFill();
@@ -146,7 +148,7 @@ function reset() {
 }
 
 function calculateBombPosition() {
-  for (let i = 0; i < bombCount; i++) {
+  for (let k = 0; k < bombCount; k++) {
     let options = [];
 
     for (let i = 0; i < 20; i++) {
@@ -200,7 +202,7 @@ function calculateNumbers() {
 }
 
 function mousePressed() {
-  if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+  if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height && !gameLost) {
     let x = int((mouseX - borderSize * 2) / (width / 20));
     let y = int((mouseY - borderSize * 2) / (width / 20));
 
