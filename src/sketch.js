@@ -1,9 +1,24 @@
 let grid = [];
+let clickedGrid = [];
 
 let bomb;
 let flag;
 
 const bombCount = 40;
+
+const borderSize = 3.5;
+
+const colors = {
+  0: [255],
+  1: [0, 0, 255],
+  2: [0, 128, 0],
+  3: [255, 0, 0],
+  4: [0, 0, 128],
+  5: [128, 0, 0],
+  6: [0, 128, 128],
+  7: [0],
+  8: [128],
+};
 
 function preload() {
   bomb = loadImage("assets/Bomb.png");
@@ -17,8 +32,10 @@ function setup() {
 
   for (let i = 0; i < 20; i++) {
     grid.push([]);
+    clickedGrid.push([]);
     for (let j = 0; j < 20; j++) {
       grid[i].push(0);
+      clickedGrid[i].push(false);
     }
   }
 
@@ -32,24 +49,37 @@ function draw() {
 
   let cellWidth = width / 20;
   let cellHeight = height / 20;
-  let borderSize = 3.5;
 
   for (let i = 0; i < 20; i++) {
     for (let j = 0; j < 20; j++) {
       noStroke();
 
-      fill(198);
-      rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+      if (!clickedGrid[i][j]) {
+        fill(198);
+        rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
 
-      fill(255);
-      rect(i * cellWidth, j * cellHeight, cellWidth, borderSize);
-      rect(i * cellWidth, j * cellHeight, borderSize, cellHeight);
+        fill(255);
+        rect(i * cellWidth, j * cellHeight, cellWidth, borderSize);
+        rect(i * cellWidth, j * cellHeight, borderSize, cellHeight);
 
-      fill(120);
-      rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
-      rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
+        fill(120);
+        rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
+        rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
+      } else if (grid[i][j] === -1) {
+        imageMode(CENTER);
+        image(bomb, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
+        //noLoop();
+      } else {
+        textStyle(BOLD);
+        fill(colors[grid[i][j]] || 0);
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        text(grid[i][j], i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
+      }
     }
   }
+
+  changeCursor();
 }
 
 function calculateBombPosition() {
@@ -102,6 +132,31 @@ function calculateNumbers() {
       }
 
       grid[i][j] = currentNum;
+    }
+  }
+}
+
+function mouseClicked() {
+  if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+    let x = int((mouseX - borderSize * 2) / (width / 20));
+    let y = int((mouseY - borderSize * 2) / (width / 20));
+
+    if (clickedGrid[x][y]) {
+      return;
+    }
+
+    clickedGrid[x][y] = true;
+  }
+}
+
+function changeCursor() {
+  if (mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height) {
+    let x = int((mouseX - borderSize * 2) / (width / 20));
+    let y = int((mouseY - borderSize * 2) / (width / 20));
+
+    cursor("initial");
+    if (!clickedGrid[x][y]) {
+      cursor("pointer");
     }
   }
 }
