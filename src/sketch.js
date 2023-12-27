@@ -122,7 +122,7 @@ function draw() {
         textStyle(BOLD);
         fill(colors[grid[i][j]] || 0);
         textAlign(CENTER, CENTER);
-        textSize(20);
+        textSize(24);
         text(
           grid[i][j] === 0 ? "" : grid[i][j],
           i * cellWidth + cellWidth / 2,
