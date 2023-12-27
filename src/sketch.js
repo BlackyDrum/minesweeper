@@ -16,6 +16,7 @@ const borderSize = 3.5;
 
 const sadSmiley = "&#128577;";
 const happySmiley = "&#128578;";
+const sunGlassSmiley = "&#128526;";
 
 const colors = {
   0: [255],
@@ -78,6 +79,7 @@ function draw() {
 
   if (isWin()) {
     showAllBombs();
+    document.getElementById("reset").innerHTML = sunGlassSmiley;
     noLoop();
   }
 
