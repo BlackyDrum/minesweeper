@@ -136,7 +136,9 @@ function draw() {
 function showAllBombs() {
   for (let i = 0; i < 20; i++) {
     for (let j = 0; j < 20; j++) {
-      if (grid[i][j] === -1) {
+      if (grid[i][j] === -1 && isWin()) {
+        clickedGrid[i][j] = 1;
+      } else if (grid[i][j] === -1 && clickedGrid[i][j] !== 2) {
         clickedGrid[i][j] = 1;
       }
     }
@@ -231,6 +233,7 @@ function mousePressed() {
 
     if (mouseButton === RIGHT && clickedGrid[x][y] !== 1) {
       if (clickedGrid[x][y] === 2) {
+        // 2 represents a flag
         clickedGrid[x][y] = 0;
         remainingFlags++;
       } else {
