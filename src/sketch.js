@@ -56,6 +56,8 @@ function setup() {
     }
   }
 
+  flag.resize(20, 20);
+
   calculateBombPosition();
   calculateNumbers();
 
@@ -97,50 +99,7 @@ function draw() {
         rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
 
         fill(255);
-
-        // top
-        push();
-        beginShape();
-        stroke(255);
-        vertex(i * cellWidth, j * cellHeight);
-        vertex(i * cellWidth + cellWidth, j * cellHeight);
-        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize);
-        vertex(i * cellWidth, j * cellHeight + borderSize);
-        endShape(CLOSE);
-        pop();
-
-        // left
-        push();
-        beginShape();
-        stroke(255);
-        vertex(i * cellWidth, j * cellHeight);
-        vertex(i * cellWidth, j * cellHeight + cellHeight);
-        vertex(i * cellWidth + borderSize, j * cellHeight + cellHeight - borderSize);
-        vertex(i * cellWidth + borderSize, j * cellHeight);
-        endShape(CLOSE);
-        pop();
-
-        // right
-        push();
-        beginShape();
-        stroke(120);
-        fill(120);
-        vertex(i * cellWidth + cellWidth, j * cellHeight);
-        vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
-        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
-        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize + 1);
-        endShape(CLOSE);
-
-        // bottom
-        beginShape();
-        stroke(120);
-        fill(120);
-        vertex(i * cellWidth, j * cellHeight + cellHeight - 1);
-        vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
-        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
-        vertex(i * cellWidth + borderSize + 1, j * cellHeight + cellHeight - borderSize);
-        endShape(CLOSE);
-        pop();
+        drawVertices(i, j, cellWidth, cellHeight);
 
         //rect(i * cellWidth, j * cellHeight, cellWidth, borderSize);
         //rect(i * cellWidth, j * cellHeight, borderSize, cellHeight);
@@ -149,6 +108,9 @@ function draw() {
         //rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
         //rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
       } else if (clickedGrid[i][j] === 2) {
+        fill(255);
+        drawVertices(i, j, cellWidth, cellHeight);
+
         imageMode(CENTER);
         image(flag, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
       } else if (grid[i][j] === -1) {
@@ -178,6 +140,52 @@ function draw() {
   }
 
   changeCursor();
+}
+
+function drawVertices(i, j, cellWidth, cellHeight) {
+  // top
+  push();
+  beginShape();
+  stroke(255);
+  vertex(i * cellWidth, j * cellHeight);
+  vertex(i * cellWidth + cellWidth, j * cellHeight);
+  vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize);
+  vertex(i * cellWidth, j * cellHeight + borderSize);
+  endShape(CLOSE);
+  pop();
+
+  // left
+  push();
+  beginShape();
+  stroke(255);
+  vertex(i * cellWidth, j * cellHeight);
+  vertex(i * cellWidth, j * cellHeight + cellHeight);
+  vertex(i * cellWidth + borderSize, j * cellHeight + cellHeight - borderSize);
+  vertex(i * cellWidth + borderSize, j * cellHeight);
+  endShape(CLOSE);
+  pop();
+
+  // right
+  push();
+  beginShape();
+  stroke(120);
+  fill(120);
+  vertex(i * cellWidth + cellWidth, j * cellHeight);
+  vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
+  vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
+  vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize + 1);
+  endShape(CLOSE);
+
+  // bottom
+  beginShape();
+  stroke(120);
+  fill(120);
+  vertex(i * cellWidth, j * cellHeight + cellHeight - 1);
+  vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
+  vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
+  vertex(i * cellWidth + borderSize + 1, j * cellHeight + cellHeight - borderSize);
+  endShape(CLOSE);
+  pop();
 }
 
 function showAllBombs() {
