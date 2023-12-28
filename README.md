@@ -2,7 +2,8 @@
 
 **A simple implementation of the classic Minesweeper game in `P5.js`!**
 
-![ezgif com-video-to-gif-converter](https://github.com/BlackyDrum/minesweeper/assets/111639941/e62c1be5-79fa-4d5b-9862-589904fef4bf)
+![demo](https://github.com/BlackyDrum/minesweeper/assets/111639941/e6119370-158c-4f8a-a93c-2511c64b9f2b)
+
 
 
 ## Demo
