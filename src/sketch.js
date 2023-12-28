@@ -312,8 +312,19 @@ function mousePressed() {
       let i = current.x;
       let j = current.y;
 
-      if (i < 0 || i >= grid.length || j < 0 || j >= grid.length || clickedGrid[i][j] !== 0) {
+      if (
+        i < 0 ||
+        i >= grid.length ||
+        j < 0 ||
+        j >= grid.length ||
+        (clickedGrid[i][j] !== 0 && clickedGrid[i][j] !== 2)
+      ) {
         continue;
+      }
+
+      if (clickedGrid[i][j] === 2) {
+        remainingFlags++;
+        $("#flagCount").sevenSeg({ value: String(remainingFlags).padStart(3, "0"), digits: 3 });
       }
 
       clickedGrid[i][j] = 1;
