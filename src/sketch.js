@@ -12,7 +12,7 @@ const bombCount = 50;
 
 let remainingFlags = bombCount;
 
-const borderSize = 3.5;
+const borderSize = 3;
 
 const sadSmiley = "&#128577;";
 const happySmiley = "&#128578;";
@@ -97,12 +97,57 @@ function draw() {
         rect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
 
         fill(255);
-        rect(i * cellWidth, j * cellHeight, cellWidth, borderSize);
-        rect(i * cellWidth, j * cellHeight, borderSize, cellHeight);
 
+        // top
+        push();
+        beginShape();
+        stroke(255);
+        vertex(i * cellWidth, j * cellHeight);
+        vertex(i * cellWidth + cellWidth, j * cellHeight);
+        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize);
+        vertex(i * cellWidth, j * cellHeight + borderSize);
+        endShape(CLOSE);
+        pop();
+
+        // left
+        push();
+        beginShape();
+        stroke(255);
+        vertex(i * cellWidth, j * cellHeight);
+        vertex(i * cellWidth, j * cellHeight + cellHeight);
+        vertex(i * cellWidth + borderSize, j * cellHeight + cellHeight - borderSize);
+        vertex(i * cellWidth + borderSize, j * cellHeight);
+        endShape(CLOSE);
+        pop();
+
+        // right
+        push();
+        beginShape();
+        stroke(120);
         fill(120);
-        rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
-        rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
+        vertex(i * cellWidth + cellWidth, j * cellHeight);
+        vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
+        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
+        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + borderSize + 1);
+        endShape(CLOSE);
+
+        // bottom
+        beginShape();
+        stroke(120);
+        fill(120);
+        vertex(i * cellWidth, j * cellHeight + cellHeight - 1);
+        vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
+        vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
+        vertex(i * cellWidth + borderSize + 1, j * cellHeight + cellHeight - borderSize);
+        endShape(CLOSE);
+        pop();
+
+        //rect(i * cellWidth, j * cellHeight, cellWidth, borderSize);
+        //rect(i * cellWidth, j * cellHeight, borderSize, cellHeight);
+
+        //fill(120);
+        //rect(i * cellWidth, (j + 1) * cellHeight - borderSize, cellWidth, borderSize);
+        //rect((i + 1) * cellWidth - borderSize, j * cellHeight, borderSize, cellHeight);
       } else if (clickedGrid[i][j] === 2) {
         imageMode(CENTER);
         image(flag, i * cellWidth + cellWidth / 2, j * cellHeight + cellHeight / 2);
