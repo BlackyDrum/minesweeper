@@ -180,7 +180,7 @@ function drawVertices(i, j, cellWidth, cellHeight) {
   beginShape();
   stroke(120);
   fill(120);
-  vertex(i * cellWidth, j * cellHeight + cellHeight - 1);
+  vertex(i * cellWidth, j * cellHeight + cellHeight);
   vertex(i * cellWidth + cellWidth, j * cellHeight + cellHeight);
   vertex(i * cellWidth + cellWidth - borderSize, j * cellHeight + cellHeight - borderSize);
   vertex(i * cellWidth + borderSize + 1, j * cellHeight + cellHeight - borderSize);
